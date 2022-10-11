@@ -55,7 +55,7 @@ namespace ProjectManagerWebApi.Data
             _context = context;
         }
 
-        public virtual async Task<int> sp_Delete_ProjectAsync(int? ProjectID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<int> sp_Delete_ProjectAsync(int? ProjectId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -68,20 +68,20 @@ namespace ProjectManagerWebApi.Data
             {
                 new SqlParameter
                 {
-                    ParameterName = "ProjectID",
-                    Value = ProjectID ?? Convert.DBNull,
+                    ParameterName = "ProjectId",
+                    Value = ProjectId ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.Int,
                 },
                 parameterreturnValue,
             };
-            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[sp_Delete_Project] @ProjectID", sqlParameters, cancellationToken);
+            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[sp_Delete_Project] @ProjectId", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 
             return _;
         }
 
-        public virtual async Task<int> sp_Delete_TaskAsync(int? TaskID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<int> sp_Delete_TaskAsync(int? TaskId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -94,13 +94,13 @@ namespace ProjectManagerWebApi.Data
             {
                 new SqlParameter
                 {
-                    ParameterName = "TaskID",
-                    Value = TaskID ?? Convert.DBNull,
+                    ParameterName = "TaskId",
+                    Value = TaskId ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.Int,
                 },
                 parameterreturnValue,
             };
-            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[sp_Delete_Task] @TaskID", sqlParameters, cancellationToken);
+            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[sp_Delete_Task] @TaskId", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 
@@ -134,7 +134,7 @@ namespace ProjectManagerWebApi.Data
             return _;
         }
 
-        public virtual async Task<List<sp_Insert_TaskResult>> sp_Insert_TaskAsync(string TaskName, DateTime? DateUpdated, DateTime? DateDue, int? ProjectID, string AssignedToEmail, int? Priority, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<sp_Insert_TaskResult>> sp_Insert_TaskAsync(string TaskName, DateTime? DateUpdated, DateTime? DateDue, int? ProjectId, string AssignedToEmail, int? Priority, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -166,8 +166,8 @@ namespace ProjectManagerWebApi.Data
                 },
                 new SqlParameter
                 {
-                    ParameterName = "ProjectID",
-                    Value = ProjectID ?? Convert.DBNull,
+                    ParameterName = "ProjectId",
+                    Value = ProjectId ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.Int,
                 },
                 new SqlParameter
@@ -185,14 +185,14 @@ namespace ProjectManagerWebApi.Data
                 },
                 parameterreturnValue,
             };
-            var _ = await _context.SqlQueryAsync<sp_Insert_TaskResult>("EXEC @returnValue = [dbo].[sp_Insert_Task] @TaskName, @DateUpdated, @DateDue, @ProjectID, @AssignedToEmail, @Priority", sqlParameters, cancellationToken);
+            var _ = await _context.SqlQueryAsync<sp_Insert_TaskResult>("EXEC @returnValue = [dbo].[sp_Insert_Task] @TaskName, @DateUpdated, @DateDue, @ProjectId, @AssignedToEmail, @Priority", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 
             return _;
         }
 
-        public virtual async Task<List<sp_Select_ProjectResult>> sp_Select_ProjectAsync(int? ProjectID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<sp_Select_ProjectResult>> sp_Select_ProjectAsync(int? ProjectId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -205,13 +205,13 @@ namespace ProjectManagerWebApi.Data
             {
                 new SqlParameter
                 {
-                    ParameterName = "ProjectID",
-                    Value = ProjectID ?? Convert.DBNull,
+                    ParameterName = "ProjectId",
+                    Value = ProjectId ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.Int,
                 },
                 parameterreturnValue,
             };
-            var _ = await _context.SqlQueryAsync<sp_Select_ProjectResult>("EXEC @returnValue = [dbo].[sp_Select_Project] @ProjectID", sqlParameters, cancellationToken);
+            var _ = await _context.SqlQueryAsync<sp_Select_ProjectResult>("EXEC @returnValue = [dbo].[sp_Select_Project] @ProjectId", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 
@@ -238,7 +238,7 @@ namespace ProjectManagerWebApi.Data
             return _;
         }
 
-        public virtual async Task<List<sp_Select_TaskResult>> sp_Select_TaskAsync(int? TaskID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<sp_Select_TaskResult>> sp_Select_TaskAsync(int? TaskId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -251,13 +251,13 @@ namespace ProjectManagerWebApi.Data
             {
                 new SqlParameter
                 {
-                    ParameterName = "TaskID",
-                    Value = TaskID ?? Convert.DBNull,
+                    ParameterName = "TaskId",
+                    Value = TaskId ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.Int,
                 },
                 parameterreturnValue,
             };
-            var _ = await _context.SqlQueryAsync<sp_Select_TaskResult>("EXEC @returnValue = [dbo].[sp_Select_Task] @TaskID", sqlParameters, cancellationToken);
+            var _ = await _context.SqlQueryAsync<sp_Select_TaskResult>("EXEC @returnValue = [dbo].[sp_Select_Task] @TaskId", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 
@@ -304,7 +304,7 @@ namespace ProjectManagerWebApi.Data
             return _;
         }
 
-        public virtual async Task<List<sp_Update_ProjectResult>> sp_Update_ProjectAsync(string ProjectName, int? ProjectID, OutputParameter<int?> out_error_number, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<sp_Update_ProjectResult>> sp_Update_ProjectAsync(string ProjectName, int? ProjectId, OutputParameter<int?> out_error_number, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterout_error_number = new SqlParameter
             {
@@ -332,13 +332,13 @@ namespace ProjectManagerWebApi.Data
                 },
                 new SqlParameter
                 {
-                    ParameterName = "ProjectID",
-                    Value = ProjectID ?? Convert.DBNull,
+                    ParameterName = "ProjectId",
+                    Value = ProjectId ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.Int,
                 },
                 parameterreturnValue,
             };
-            var _ = await _context.SqlQueryAsync<sp_Update_ProjectResult>("EXEC @returnValue = [dbo].[sp_Update_Project] @out_error_number OUTPUT, @ProjectName, @ProjectID", sqlParameters, cancellationToken);
+            var _ = await _context.SqlQueryAsync<sp_Update_ProjectResult>("EXEC @returnValue = [dbo].[sp_Update_Project] @out_error_number OUTPUT, @ProjectName, @ProjectId", sqlParameters, cancellationToken);
 
             out_error_number.SetValue(parameterout_error_number.Value);
             returnValue?.SetValue(parameterreturnValue.Value);
@@ -346,7 +346,7 @@ namespace ProjectManagerWebApi.Data
             return _;
         }
 
-        public virtual async Task<List<sp_Update_TaskResult>> sp_Update_TaskAsync(int? TaskID, string TaskName, DateTime? DateUpdated, DateTime? DateDue, int? ProjectID, string AssignedToEmail, int? Priority, OutputParameter<int?> out_error_number, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<sp_Update_TaskResult>> sp_Update_TaskAsync(int? TaskId, string TaskName, DateTime? DateUpdated, DateTime? DateDue, int? ProjectId, string AssignedToEmail, int? Priority, OutputParameter<int?> out_error_number, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterout_error_number = new SqlParameter
             {
@@ -367,8 +367,8 @@ namespace ProjectManagerWebApi.Data
                 parameterout_error_number,
                 new SqlParameter
                 {
-                    ParameterName = "TaskID",
-                    Value = TaskID ?? Convert.DBNull,
+                    ParameterName = "TaskId",
+                    Value = TaskId ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.Int,
                 },
                 new SqlParameter
@@ -392,8 +392,8 @@ namespace ProjectManagerWebApi.Data
                 },
                 new SqlParameter
                 {
-                    ParameterName = "ProjectID",
-                    Value = ProjectID ?? Convert.DBNull,
+                    ParameterName = "ProjectId",
+                    Value = ProjectId ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.Int,
                 },
                 new SqlParameter
@@ -411,7 +411,7 @@ namespace ProjectManagerWebApi.Data
                 },
                 parameterreturnValue,
             };
-            var _ = await _context.SqlQueryAsync<sp_Update_TaskResult>("EXEC @returnValue = [dbo].[sp_Update_Task] @out_error_number OUTPUT, @TaskID, @TaskName, @DateUpdated, @DateDue, @ProjectID, @AssignedToEmail, @Priority", sqlParameters, cancellationToken);
+            var _ = await _context.SqlQueryAsync<sp_Update_TaskResult>("EXEC @returnValue = [dbo].[sp_Update_Task] @out_error_number OUTPUT, @TaskId, @TaskName, @DateUpdated, @DateDue, @ProjectId, @AssignedToEmail, @Priority", sqlParameters, cancellationToken);
 
             out_error_number.SetValue(parameterout_error_number.Value);
             returnValue?.SetValue(parameterreturnValue.Value);

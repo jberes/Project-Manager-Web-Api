@@ -29,8 +29,6 @@ namespace ProjectManagerWebApi.Data
             {
                 entity.HasKey(e => e.ProjectId);
 
-                entity.Property(e => e.ProjectId).HasColumnName("ProjectID");
-
                 entity.Property(e => e.DateAdded)
                     .HasColumnType("datetime")
                     .HasComputedColumnSql("(getdate())", false);
@@ -45,8 +43,6 @@ namespace ProjectManagerWebApi.Data
             {
                 entity.HasKey(e => e.TaskId);
 
-                entity.Property(e => e.TaskId).HasColumnName("TaskID");
-
                 entity.Property(e => e.AssignedToEmail)
                     .IsRequired()
                     .HasMaxLength(100)
@@ -59,8 +55,6 @@ namespace ProjectManagerWebApi.Data
                 entity.Property(e => e.DateDue).HasColumnType("date");
 
                 entity.Property(e => e.DateUpdated).HasColumnType("date");
-
-                entity.Property(e => e.ProjectId).HasColumnName("ProjectID");
 
                 entity.Property(e => e.TaskName)
                     .IsRequired()
@@ -91,14 +85,10 @@ namespace ProjectManagerWebApi.Data
 
                 entity.Property(e => e.DateUpdated).HasColumnType("date");
 
-                entity.Property(e => e.ProjectId).HasColumnName("ProjectID");
-
                 entity.Property(e => e.ProjectName)
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false);
-
-                entity.Property(e => e.TaskId).HasColumnName("TaskID");
 
                 entity.Property(e => e.TaskName)
                     .IsRequired()

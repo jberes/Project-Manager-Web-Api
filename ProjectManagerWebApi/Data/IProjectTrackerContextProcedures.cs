@@ -12,16 +12,16 @@ namespace ProjectManagerWebApi.Data
 {
     public partial interface IProjectTrackerContextProcedures
     {
-        Task<int> sp_Delete_ProjectAsync(int? ProjectID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<int> sp_Delete_TaskAsync(int? TaskID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<int> sp_Delete_ProjectAsync(int? ProjectId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<int> sp_Delete_TaskAsync(int? TaskId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<sp_Insert_ProjectResult>> sp_Insert_ProjectAsync(string ProjectName, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<sp_Insert_TaskResult>> sp_Insert_TaskAsync(string TaskName, DateTime? DateUpdated, DateTime? DateDue, int? ProjectID, string AssignedToEmail, int? Priority, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<sp_Select_ProjectResult>> sp_Select_ProjectAsync(int? ProjectID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<sp_Insert_TaskResult>> sp_Insert_TaskAsync(string TaskName, DateTime? DateUpdated, DateTime? DateDue, int? ProjectId, string AssignedToEmail, int? Priority, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<sp_Select_ProjectResult>> sp_Select_ProjectAsync(int? ProjectId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<sp_Select_ProjectsResult>> sp_Select_ProjectsAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<sp_Select_TaskResult>> sp_Select_TaskAsync(int? TaskID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<sp_Select_TaskResult>> sp_Select_TaskAsync(int? TaskId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<sp_SelectAll_ProjectsTasksResult>> sp_SelectAll_ProjectsTasksAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<sp_SelectAll_TasksResult>> sp_SelectAll_TasksAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<sp_Update_ProjectResult>> sp_Update_ProjectAsync(string ProjectName, int? ProjectID, OutputParameter<int?> out_error_number, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<sp_Update_TaskResult>> sp_Update_TaskAsync(int? TaskID, string TaskName, DateTime? DateUpdated, DateTime? DateDue, int? ProjectID, string AssignedToEmail, int? Priority, OutputParameter<int?> out_error_number, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<sp_Update_ProjectResult>> sp_Update_ProjectAsync(string ProjectName, int? ProjectId, OutputParameter<int?> out_error_number, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<sp_Update_TaskResult>> sp_Update_TaskAsync(int? TaskId, string TaskName, DateTime? DateUpdated, DateTime? DateDue, int? ProjectId, string AssignedToEmail, int? Priority, OutputParameter<int?> out_error_number, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
     }
 }

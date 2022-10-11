@@ -2,7 +2,6 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace ProjectManagerWebApi.Models
 {
@@ -17,7 +16,6 @@ namespace ProjectManagerWebApi.Models
         public string ProjectName { get; set; }
         public DateTime DateAdded { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<Tasks> Tasks { get; set; }
     }
 }

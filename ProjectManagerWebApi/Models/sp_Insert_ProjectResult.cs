@@ -7,7 +7,7 @@ namespace ProjectManagerWebApi.Models
 {
     public partial class sp_Insert_ProjectResult
     {
-        public int ProjectID { get; set; }
+        public int ProjectId { get; set; }
         public string ProjectName { get; set; }
         public DateTime DateAdded { get; set; }
     }

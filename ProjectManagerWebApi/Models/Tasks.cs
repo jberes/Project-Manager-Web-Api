@@ -2,7 +2,6 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace ProjectManagerWebApi.Models
 {
@@ -17,7 +16,6 @@ namespace ProjectManagerWebApi.Models
         public string AssignedToEmail { get; set; }
         public int Priority { get; set; }
 
-        [JsonIgnore]
         public virtual Projects Project { get; set; }
     }
 }

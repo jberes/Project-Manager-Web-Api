@@ -5,6 +5,7 @@ using Task = ProjectManagerWebApi.Models.Tasks;
 using Project = ProjectManagerWebApi.Models.Projects;
 using System.Threading.Tasks;
 using System.Text.Json.Serialization;
+using ProjectManagerWebApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
@@ -89,8 +90,11 @@ app.MapPost("api/task_sp", async ([FromServices] ProjectTrackerContextProcedures
    Task task) =>
 {
     var op = new OutputParameter<int>();
-    return await db.sp_Insert_TaskAsync(task.TaskName, System.DateTime.Now, task.DateDue,
+    List<sp_Insert_TaskResult> lst = new List<sp_Insert_TaskResult>();
+    lst = await db.sp_Insert_TaskAsync(task.TaskName, DateTime.Now, task.DateDue,
           task.ProjectId, task.AssignedToEmail, task.Priority, op);
+    Console.WriteLine(lst[0]);
+    return lst[0];
 });
 
 app.MapPut("api/task_sp", async ([FromServices] ProjectTrackerContextProcedures db, Task task) =>
