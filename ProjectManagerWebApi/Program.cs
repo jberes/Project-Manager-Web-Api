@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Task = ProjectManagerWebApi.Models.Tasks;
 using Project = ProjectManagerWebApi.Models.Projects;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
@@ -62,6 +63,7 @@ app.MapPost("api/task", async ([FromServices] ProjectTrackerContext db,
 {
     db.Tasks.Add(task);
     await db.SaveChangesAsync();
+    return Results.Ok(task);
 });
 
 app.MapPut("api/task", async ([FromServices] ProjectTrackerContext db,
@@ -88,7 +90,7 @@ app.MapPost("api/task_sp", async ([FromServices] ProjectTrackerContextProcedures
 {
     var op = new OutputParameter<int>();
     return await db.sp_Insert_TaskAsync(task.TaskName, System.DateTime.Now, task.DateDue,
-            task.ProjectId, task.AssignedToEmail, task.Priority, op);
+          task.ProjectId, task.AssignedToEmail, task.Priority, op);
 });
 
 app.MapPut("api/task_sp", async ([FromServices] ProjectTrackerContextProcedures db, Task task) =>
@@ -109,7 +111,6 @@ app.MapPut("api/task_sp", async ([FromServices] ProjectTrackerContextProcedures 
     return updatedTask;
 });
 
-
 app.MapDelete("api/task/{id}", async (ProjectTrackerContext db, int id) =>
 {
     var dbRequest = await db.Tasks.FindAsync(id);
@@ -122,7 +123,7 @@ app.MapDelete("api/task/{id}", async (ProjectTrackerContext db, int id) =>
 });
 
 // Use Stored Procedure
-app.MapDelete("api/task2/{id}", async (ProjectTrackerContextProcedures db, int id) =>
+app.MapDelete("api/task_sp/{id}", async (ProjectTrackerContextProcedures db, int id) =>
 {
     var op = new OutputParameter<int>();
     await db.sp_Delete_TaskAsync(id, op);
@@ -141,7 +142,6 @@ app.MapGet("api/project_sp/{id}", async ([FromServices] ProjectTrackerContextPro
     var op = new OutputParameter<int>();
     return await db.sp_Select_ProjectAsync(id, op);
 });
-
 
 app.MapPost("api/project_sp", async ([FromServices] ProjectTrackerContextProcedures db,
    Project project) =>
