@@ -91,10 +91,14 @@ app.MapPost("api/task_sp", async ([FromServices] ProjectTrackerContextProcedures
    Task task) =>
 {
     var op = new OutputParameter<int>();
+    
     List<sp_Insert_TaskResult> lst = new List<sp_Insert_TaskResult>();
-    lst = await db.sp_Insert_TaskAsync(task.TaskName, DateTime.Now, task.DateDue,
+
+    lst = await db.sp_Insert_TaskAsync(task.TaskName, task.DateUpdated, task.DateDue,
           task.ProjectId, task.AssignedToEmail, task.Priority, op);
+
     Console.WriteLine(lst[0]);
+    
     return lst[0];
 });
 
