@@ -12,6 +12,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //builder.Services.AddSqlServer<ProjectTrackerContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+
+// Make sure to add your connection string in AppSettings or User Secrets
 var connString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ProjectTrackerContext>(o => o.UseSqlServer(connString));
 builder.Services.AddScoped<ProjectTrackerContextProcedures>();
