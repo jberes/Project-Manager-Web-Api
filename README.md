@@ -6,7 +6,7 @@ Try App Builder for yourself at https://appbuilder.indigo.design/ and learn more
 
 Link to watch the webinar:
 
-
+https://youtu.be/IDCCLC994aE
 
 Download EF Core Power Tools here:
 
