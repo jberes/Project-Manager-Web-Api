@@ -84,8 +84,6 @@ app.MapPut("api/task", async ([FromServices] ProjectTrackerContext db,
     return Results.Ok(dbTask);
 });
 
-
-
 app.MapPost("api/task_sp", async ([FromServices] ProjectTrackerContextProcedures db,
    Task task) =>
 {
