@@ -8,6 +8,10 @@ Link to watch the webinar:
 
 https://youtu.be/IDCCLC994aE
 
+Angular Client App:
+
+https://github.com/jberes/Task-Editor-Angular-Web-Api-Client
+
 Download EF Core Power Tools here:
 
 https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools
