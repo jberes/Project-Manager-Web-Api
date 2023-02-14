@@ -81,7 +81,12 @@ namespace ProjectManagerWebApi.Data
             return _;
         }
 
-        public virtual async Task<int> sp_Delete_TaskAsync(int? TaskId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+
+       // public virtual async Task<List<sp_Insert_ProjectResult>>
+//        public virtual async Task<int> sp_Delete_TaskAsync(int? TaskId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<int> sp_Delete_TaskAsync(int? TaskId, 
+                OutputParameter<int> returnValue = null, 
+                CancellationToken cancellationToken = default)         
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -107,7 +112,8 @@ namespace ProjectManagerWebApi.Data
             return _;
         }
 
-        public virtual async Task<List<sp_Insert_ProjectResult>> sp_Insert_ProjectAsync(string ProjectName, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<sp_Insert_ProjectResult>> 
+            sp_Insert_ProjectAsync(string ProjectName, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -346,7 +352,8 @@ namespace ProjectManagerWebApi.Data
             return _;
         }
 
-        public virtual async Task<List<sp_Update_TaskResult>> sp_Update_TaskAsync(int? TaskId, string TaskName, DateTime? DateUpdated, DateTime? DateDue, int? ProjectId, string AssignedToEmail, int? Priority, OutputParameter<int?> out_error_number, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<sp_Update_TaskResult>> 
+            sp_Update_TaskAsync(int? TaskId, string TaskName, DateTime? DateUpdated, DateTime? DateDue, int? ProjectId, string AssignedToEmail, int? Priority, OutputParameter<int?> out_error_number, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterout_error_number = new SqlParameter
             {

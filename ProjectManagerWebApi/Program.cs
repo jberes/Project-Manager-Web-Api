@@ -3,8 +3,6 @@ using ProjectManagerWebApi.Data;
 using Microsoft.AspNetCore.Mvc;
 using Task = ProjectManagerWebApi.Models.Tasks;
 using Project = ProjectManagerWebApi.Models.Projects;
-using System.Threading.Tasks;
-using System.Text.Json.Serialization;
 using ProjectManagerWebApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,8 +11,6 @@ builder.Services.AddSwaggerGen();
 
 //builder.Services.AddSqlServer<ProjectTrackerContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
 
-
-// Make sure to add your connection string in AppSettings or User Secrets
 var connString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ProjectTrackerContext>(o => o.UseSqlServer(connString));
 builder.Services.AddScoped<ProjectTrackerContextProcedures>();
@@ -45,8 +41,7 @@ app.MapGet("api/task_sp/{id}", async ([FromServicesAttribute] ProjectTrackerCont
     return await db.sp_Select_TaskAsync(id, op);
 });
 
-app.MapPost("api/task_dto", async ([FromServices] ProjectTrackerContext db,
-       [FromBody] Task task) =>
+app.MapPost("api/task_dto", async ([FromServices] ProjectTrackerContext db, [FromBody] Task task) =>
 {
     var newTask = new Task()
     {
@@ -59,24 +54,19 @@ app.MapPost("api/task_dto", async ([FromServices] ProjectTrackerContext db,
     };
     await db.Tasks.AddAsync(newTask);
     await db.SaveChangesAsync();
-    return Results.Ok(newTask);
+    return TypedResults.Ok(newTask);
 });
 
-app.MapPost("api/task", async ([FromServices] ProjectTrackerContext db,
-        Task task) =>
+app.MapPost("api/task", async ([FromServices] ProjectTrackerContext db, Task task) =>
 {
     db.Tasks.Add(task);
     await db.SaveChangesAsync();
     return Results.Ok(task);
 });
 
-app.MapPut("api/task", async ([FromServices] ProjectTrackerContext db,
-    [FromBody] Task task) =>
+app.MapPut("api/task", async ([FromServices] ProjectTrackerContext db, [FromBody] Task task) =>
 {
     var dbTask = await db.Tasks.FindAsync(task.TaskId);
-    if (dbTask == null)
-        return Results.NotFound("Feature Request #" + task.TaskId + " Not Found");
-
     dbTask.ProjectId = task.ProjectId;
     dbTask.TaskName = task.TaskName;
     dbTask.DateUpdated = System.DateTime.Now;
@@ -84,21 +74,15 @@ app.MapPut("api/task", async ([FromServices] ProjectTrackerContext db,
     dbTask.AssignedToEmail = task.AssignedToEmail;
     dbTask.Priority = task.Priority;
     await db.SaveChangesAsync();
-    return Results.Ok(dbTask);
+    return TypedResults.Ok(dbTask);
 });
 
-app.MapPost("api/task_sp", async ([FromServices] ProjectTrackerContextProcedures db,
-   Task task) =>
+app.MapPost("api/task_sp", async ([FromServices] ProjectTrackerContextProcedures db, Task task) =>
 {
     var op = new OutputParameter<int>();
-    
     List<sp_Insert_TaskResult> lst = new List<sp_Insert_TaskResult>();
-
     lst = await db.sp_Insert_TaskAsync(task.TaskName, task.DateUpdated, task.DateDue,
           task.ProjectId, task.AssignedToEmail, task.Priority, op);
-
-    Console.WriteLine(lst[0]);
-    
     return lst[0];
 });
 
@@ -106,39 +90,18 @@ app.MapPut("api/task_sp", async ([FromServices] ProjectTrackerContextProcedures 
 {
     var op = new OutputParameter<int>();
     var err = new OutputParameter<int?>();
-    object updatedTask = null;
-
-    try
-    {
-        updatedTask = await db.sp_Update_TaskAsync(task.TaskId, task.TaskName, System.DateTime.Now,
-                task.DateDue, task.ProjectId, task.AssignedToEmail, task.Priority, err, op);
-    }
-    catch
-    {
-        return Results.BadRequest();
-    }
-    return updatedTask;
+    List<sp_Update_TaskResult> lst = new List<sp_Update_TaskResult>();
+    lst = await db.sp_Update_TaskAsync(task.TaskId, task.TaskName, System.DateTime.Now,
+            task.DateDue, task.ProjectId, task.AssignedToEmail, task.Priority, err, op);
+    return lst[0];   
 });
 
-app.MapDelete("api/task/{id}", async (ProjectTrackerContext db, int id) =>
-{
-    var dbRequest = await db.Tasks.FindAsync(id);
-    if (dbRequest == null)
-        return Results.NotFound("Feature #" + id + " Not Found");
-
-    db.Tasks.Remove(dbRequest);
-    await db.SaveChangesAsync();
-    return Results.Ok(dbRequest);
-});
-
-// Use Stored Procedure
-app.MapDelete("api/task_sp/{id}", async (ProjectTrackerContextProcedures db, int id) =>
+app.MapDelete("api/task_sp/{id}", async ([FromServices] ProjectTrackerContextProcedures db, int id) =>
 {
     var op = new OutputParameter<int>();
     await db.sp_Delete_TaskAsync(id, op);
-    return Results.Ok();
+    return await db.sp_Select_TaskAsync(id, op);
 });
-
 
 app.MapGet("api/projects_sp", async ([FromServices] ProjectTrackerContextProcedures db) =>
 {
@@ -152,8 +115,7 @@ app.MapGet("api/project_sp/{id}", async ([FromServices] ProjectTrackerContextPro
     return await db.sp_Select_ProjectAsync(id, op);
 });
 
-app.MapPost("api/project_sp", async ([FromServices] ProjectTrackerContextProcedures db,
-   Project project) =>
+app.MapPost("api/project_sp", async ([FromServices] ProjectTrackerContextProcedures db, Project project) =>
 {
     var op = new OutputParameter<int>();
     return await db.sp_Insert_ProjectAsync(project.ProjectName, op);
@@ -163,21 +125,10 @@ app.MapPut("api/project_sp", async ([FromServices] ProjectTrackerContextProcedur
 {
     var op = new OutputParameter<int>();
     var err = new OutputParameter<int?>();
-    object updatedProject = null;
-
-    try
-    {
-        if (project.ProjectId != 0 && project.ProjectName != "")
-            updatedProject = await db.sp_Update_ProjectAsync(project.ProjectName,
-                project.ProjectId, err, op);
-        else
-            return Results.BadRequest();
-    }
-    catch
-    {
-        return Results.BadRequest();
-    }
-    return updatedProject;
+    List<sp_Update_ProjectResult> lst = new List<sp_Update_ProjectResult>();
+    if (project.ProjectId != 0 && project.ProjectName != "")
+        lst = await db.sp_Update_ProjectAsync(project.ProjectName, project.ProjectId, err, op);
+    return lst[0];
 });
 
 app.UseHttpsRedirection();
