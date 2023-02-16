@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Task = ProjectManagerWebApi.Models.Tasks;
 using Project = ProjectManagerWebApi.Models.Projects;
 using ProjectManagerWebApi.Models;
+using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
@@ -66,7 +67,15 @@ app.MapPost("api/task", async ([FromServices] ProjectTrackerContext db, Task tas
 
 app.MapPut("api/task", async ([FromServices] ProjectTrackerContext db, [FromBody] Task task) =>
 {
+
     var dbTask = await db.Tasks.FindAsync(task.TaskId);
+    if (dbTask == null)
+    {
+        //context.Response.StatusCode = StatusCodes.Status404NotFound;
+        return TypedResults.Ok(dbTask);
+    }
+
+    //var dbTask = await db.Tasks.FindAsync(task.TaskId);
     dbTask.ProjectId = task.ProjectId;
     dbTask.TaskName = task.TaskName;
     dbTask.DateUpdated = System.DateTime.Now;
@@ -76,6 +85,30 @@ app.MapPut("api/task", async ([FromServices] ProjectTrackerContext db, [FromBody
     await db.SaveChangesAsync();
     return TypedResults.Ok(dbTask);
 });
+
+
+app.MapPut("/api/task/{taskId}", async (HttpContext context, int taskId, [FromServices] ProjectTrackerContext db) =>
+{
+    var dbTask = await db.Tasks.FindAsync(taskId);
+    if (dbTask == null)
+    {
+        context.Response.StatusCode = StatusCodes.Status404NotFound;
+        return TypedResults.Ok(dbTask);
+    }
+
+    var task = await context.Request.ReadFromJsonAsync<Task>();
+    dbTask.ProjectId = task.ProjectId;
+    dbTask.TaskName = task.TaskName;
+    dbTask.DateUpdated = DateTime.Now;
+    dbTask.DateDue = task.DateDue;
+    dbTask.AssignedToEmail = task.AssignedToEmail;
+    dbTask.Priority = task.Priority;
+
+    await db.SaveChangesAsync();
+    context.Response.StatusCode = StatusCodes.Status204NoContent;
+    return TypedResults.Ok(dbTask);
+});
+
 
 app.MapPost("api/task_sp", async ([FromServices] ProjectTrackerContextProcedures db, Task task) =>
 {
