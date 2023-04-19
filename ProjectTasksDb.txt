@@ -123,7 +123,7 @@ INSERT [dbo].[Tasks] ([TaskId], [TaskName], [DateUpdated], [DateDue], [ProjectId
 GO
 INSERT [dbo].[Tasks] ([TaskId], [TaskName], [DateUpdated], [DateDue], [ProjectId], [AssignedToEmail], [Priority]) VALUES (2, N'Task Name Two', CAST(N'2022-10-11' AS Date), CAST(N'2022-10-11' AS Date), 1, N'George', 1)
 GO
-INSERT [dbo].[Tasks] ([TaskId], [TaskName], [DateUpdated], [DateDue], [ProjectId], [AssignedToEmail], [Priority]) VALUES (2, N'Task Name Three', CAST(N'2022-10-11' AS Date), CAST(N'2022-10-11' AS Date), 1, N'Pablo', 1)
+INSERT [dbo].[Tasks] ([TaskId], [TaskName], [DateUpdated], [DateDue], [ProjectId], [AssignedToEmail], [Priority]) VALUES (3, N'Task Name Three', CAST(N'2022-10-11' AS Date), CAST(N'2022-10-11' AS Date), 1, N'Pablo', 1)
 GO
 SET IDENTITY_INSERT [dbo].[Tasks] OFF
 GO
